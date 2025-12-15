@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const NumPud = (props) => {
   const { value, touch } = props
@@ -14,9 +14,13 @@ const NumPud = (props) => {
         signs.push(item);
       }
     })
+    if (!split.at(-1)) {
+      split.pop();
+      signs.pop();
+    }
     for (let i = 0; i <= signs.length; i++) {
       if (signs[i] == '%') {
-        sum = sum % +split[i + 1];
+        sum = sum / 100 * +split[i + 1];
       }
       if (signs[i] == '÷') {
         sum = sum / +split[i + 1];
@@ -31,18 +35,23 @@ const NumPud = (props) => {
         sum = sum - +split[i + 1];
       }
     }
-    
-    console.log(split)
-    console.log(signs)
-    console.log(sum)
+    touch(String(sum));
   }
 
   return (
     <div>
-      <button>
+      <button onClick={() => touch('')}>
         <h1>AC</h1>
       </button>
-      <button>
+      <button onClick={() => {
+         const openCount = value.split('').filter(a => a == "(").length;
+         const closeCount = value.split('').filter(a => a == ")").length
+        if (openCount > closeCount) {
+          touch(value + ')')
+        } else if (numbers.includes(value.at(-1))) {
+          touch(value + '(')
+        }
+      }}>
         <h1>()</h1>
       </button>
       <button onClick={() => numbers.includes(value.at(-1)) ? touch(value + '%') : touch(value)}>
