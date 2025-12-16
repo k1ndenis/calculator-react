@@ -7,14 +7,34 @@ const NumPud = (props) => {
 
   const Calculate = () => {
     function calculateBrackets(val) {
-      let brackets = val.slice(val.indexOf('(') + 1, val.indexOf(')'))
+      const brackets = val.slice(val.indexOf('(') + 1, val.indexOf(')'))
       const result = calculate(brackets);
       val = val.slice(0, val.indexOf('(')) + result + val.slice(val.indexOf(')') + 1);
-      touch(val)
+      touch(val);
       return(val);
     }
+     function calculateFirst(val) {
+        const split = val.split(/[%÷x+-]+/);
+        const signs = [];
+        val.split('').map(item => {
+          if (!numbers.includes(item)) {
+            signs.push(item);
+          }
+        })
+        if (!split.at(-1)) {
+          split.pop();
+          signs.pop();
+        }
+        const signIndex = signs.indexOf('x') ?? signs.indexOf('÷');
+        const operation = [split[signIndex], signs[signIndex], split[signIndex + 1]].join('');
+        const result = calculate(operation);
+        val = val.slice(0, val.indexOf(operation)) + result + val.slice(val.indexOf(operation.at(-1)) + 1);
+        touch(val);
+        return(val);
+      }
+      calculateFirst(value)
     function calculate(val) {
-      const split = val.split(/[%÷x+-]+/)
+      const split = val.split(/[%÷x+-]+/);
       let sum = +split[0];
       const signs = [];
       val.split('').map(item => {
@@ -48,6 +68,9 @@ const NumPud = (props) => {
     let currentValue = value;
     while (currentValue.includes('(')) {
       currentValue = calculateBrackets(currentValue);
+    }
+    while (currentValue.includes('x') || currentValue.includes('÷')) {
+      currentValue = calculateFirst(currentValue);
     }
     touch(calculate(currentValue));
   }
