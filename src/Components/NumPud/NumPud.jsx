@@ -28,11 +28,10 @@ const NumPud = (props) => {
         const signIndex = signs.indexOf('x') ?? signs.indexOf('÷');
         const operation = [split[signIndex], signs[signIndex], split[signIndex + 1]].join('');
         const result = calculate(operation);
-        val = val.slice(0, val.indexOf(operation)) + result + val.slice(val.indexOf(operation.at(-1)) + 1);
+        val = val.slice(0, val.indexOf(operation)) + result + signs[signIndex+ 1] + split[signIndex + 1];
         touch(val);
         return(val);
       }
-      calculateFirst(value)
     function calculate(val) {
       const split = val.split(/[%÷x+-]+/);
       let sum = +split[0];
@@ -69,7 +68,7 @@ const NumPud = (props) => {
     while (currentValue.includes('(')) {
       currentValue = calculateBrackets(currentValue);
     }
-    while (currentValue.includes('x') || currentValue.includes('÷')) {
+    while (value.split(/[%÷x+-]+/) > 2 && (currentValue.includes('x') || currentValue.includes('÷'))) {
       currentValue = calculateFirst(currentValue);
     }
     touch(calculate(currentValue));
@@ -80,7 +79,7 @@ const NumPud = (props) => {
       <button onClick={() => touch('')}>
         <h1>AC</h1>
       </button>
-      <button onClick={() => {
+      <button className="button" onClick={() => {
          const openCount = value.split('').filter(a => a == "(").length;
          const closeCount = value.split('').filter(a => a == ")").length
         if (openCount > closeCount && value.at(-1) != ('(') ) {
@@ -91,62 +90,62 @@ const NumPud = (props) => {
       }}>
         <h1>()</h1>
       </button>
-      <button onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '%') : touch(value)}>
+      <button className="button" onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '%') : touch(value)}>
         <h1>%</h1>
       </button>
-      <button onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '÷') : touch(value)}>
+      <button className="button" onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '÷') : touch(value)}>
         <h1>÷</h1>
       </button>
       <br/>
-      <button onClick={() => touch(value + 7)}>
+      <button className="button" onClick={() => touch(value + 7)}>
         <h1>7</h1>
       </button>
-      <button onClick={() => touch(value + 8)}>
+      <button className="button" onClick={() => touch(value + 8)}>
         <h1>8</h1>
       </button>
-      <button onClick={() => touch(value + 9)}>
+      <button className="button" onClick={() => touch(value + 9)}>
         <h1>9</h1>
       </button>
-      <button onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + 'x') : touch(value)}>
+      <button className="button" onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + 'x') : touch(value)}>
         <h1>x</h1>
       </button>
       <br/>
-      <button onClick={() => touch(value + 4)}>
+      <button className="button" onClick={() => touch(value + 4)}>
         <h1>4</h1>
       </button>
-      <button onClick={() => touch(value + 5)}>
+      <button className="button" onClick={() => touch(value + 5)}>
         <h1>5</h1>
       </button>
-      <button onClick={() => touch(value + 6)}>
+      <button className="button" onClick={() => touch(value + 6)}>
         <h1>6</h1>
       </button>
-      <button onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '-') : touch(value)}>
+      <button className="button" onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '-') : touch(value)}>
         <h1>-</h1>
       </button>
       <br/>
-      <button onClick={() => touch(value + 1)}>
+      <button className="button" onClick={() => touch(value + 1)}>
         <h1>1</h1>
       </button>
-      <button onClick={() => touch(value + 2)}>
+      <button className="button" onClick={() => touch(value + 2)}>
         <h1>2</h1>
       </button>
-      <button onClick={() => touch(value + 3)}>
+      <button className="button" onClick={() => touch(value + 3)}>
         <h1>3</h1>
       </button>
-      <button onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '+') : touch(value)}>
+      <button className="button" onClick={() => numbers.includes(value.at(-1)) || value.at(-1) == ')' ? touch(value + '+') : touch(value)}>
         <h1>+</h1>
       </button>
       <br/>
-      <button onClick={() => touch(value + 0)}>
+      <button className="button" onClick={() => touch(value + 0)}>
         <h1>0</h1>
       </button>
-      <button onClick={() => numbers.includes(value.at(-1)) && !value.includes('.') ? touch(value + '.') : touch(value)}>
+      <button className="button" onClick={() => numbers.includes(value.at(-1)) && !value.includes('.') ? touch(value + '.') : touch(value)}>
         <h1>.</h1>
       </button>
-      <button onClick={() => touch(value.slice(0, -1))}>
+      <button className="button" onClick={() => touch(value.slice(0, -1))}>
         <h1>⌫</h1>
       </button>
-      <button onClick={() => Calculate(value)}>
+      <button className="button" onClick={() => Calculate(value)}>
         <h1>=</h1>
       </button>
     </div>
